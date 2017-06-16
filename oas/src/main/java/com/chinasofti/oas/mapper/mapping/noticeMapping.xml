@@ -10,18 +10,24 @@
   		<result column="ncontent" property="ncontent"/>
   		<result column="ntime" property="ntime"/>
   	</resultMap>
-  	<select id="queryNotice" parameterType="notice" resultMap="noticeResults">
+  	<select id="queryNotice" parameterType="Map" resultMap="noticeResults">
   		select * from t_notice
   		<include refid="no1" />
+  		<if test="start !=null and size !=null">
+            limit #{start},#{size}
+        </if>
   	</select>
   	<sql id="no1">
   		<where>
   			<if test="nrange !=null and nrange != '' ">
   				nrange=#{nrange}
   			</if>
-  			<if test="ntime !=null and ntime != '' ">
-  				ntime=#{ntime}
-  			</if>
   		</where>
   	</sql>
+  	<select id="queryCount" parameterType="Map" resultMap="Long">
+  		select count(*) from t_notice
+  		<include refid="no1" />
+  	</select>
+  		
+  	
   </mapper>
