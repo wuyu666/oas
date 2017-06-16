@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.chinasofti.oa.mapper.PersonalMapper">
+      <resultMap id="personals" type="personal" >
+          <id property="uid" column="uid"/>
+          <result property="uname" column="uname"/>
+          <result property="usex" column="usex"/>
+          <result property="uage" column="uage"/>
+          <result property="utel" column="utel"/>
+          <result property="usalary" column="usalary"/>
+          <result property="uadress" column="uadress"/>
+          <result property="uemail" column="uemail"/>
+          <result property="uhiredate" column="uhiredate"/>
+          <result property="uzzsj" column="uzzsj"/>
+          <result property="umarry" column="umarry"/>
+           <result property="upotourl" column="upotourl"/>
+          
+      </resultMap>
+      <select id="query" parameterType="personal" resultMap="personals">
+          select * from t_user where uid=#{uid}
+      </select>
+  </mapper>

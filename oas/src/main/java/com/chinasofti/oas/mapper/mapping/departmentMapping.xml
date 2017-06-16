@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.chinasofti.oa.mapper.IDepartmentMapper">
+  		<resultMap id="results" type="department" >
+  			<id column="did" property="did"/>
+  			<result column="dnumber" property="dnumber"/>
+  			<result column="dname" property="dname"/>
+  			<collection column="pid" property="positions" ofType="position">
+  				<id column="pid" property="pid"/>
+  				<result column="pname" property="pname"/>
+  			</collection>
+  		</resultMap>
+  		<select id="queryDepartment" resultMap="results">
+  			select d.dnumber,d.dname,p.pname from t_department as d left join t_position as p on d.d_pid=p.pid
+  		</select>
+  		<select id="insertDepartment" parameterType="department">
+  			insert into t_department(dnumber,dname,d_pid) values(department.dnumber,department.dname,department.position.pid);
+  		</select>
+  		<select id="updateDepartment"></select>
+  		<select id="deleteDepartment">
+  			delete from t_department where id=#{_parameter}
+  		</select>
+  </mapper>
