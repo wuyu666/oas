@@ -42,15 +42,16 @@ public class DepartmentAction {
 		boolean flag=departmentService.insertDepartment(department);
 		return flag;
 	}
+	
 	/**
 	 * 去往修改页面
 	 * @param department
 	 * @return
 	 */
 	@RequestMapping("/toUpdate")
-	@ResponseBody
-	public String toUpdate(int id){
-		departmentService.queryDepartmentById(id);
+	
+	public String toUpdate(){
+		String url="toUpdate";
 		return "toUpdate";
 	}
 	/**

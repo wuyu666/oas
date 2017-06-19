@@ -13,7 +13,12 @@
   			</collection>
   		</resultMap>
   		<select id="queryDepartment" resultMap="results">
-  			select d.dnumber,d.dname,p.pname from t_department as d left join t_position as p on d.d_pid=p.pid
+  			select d.dnumber,d.dname,p.pname from t_department as d left join t_department_has_t_position as dp on d.did=dp.t_department_did left join t_position as p on dp.t_position_pid=p.pid 
+  			<where>
+  				<if test="dname!=null and !dname.equals('')">
+  					and dname=#{dname}
+  				</if>
+  			</where>
   		</select>
   		<select id="insertDepartment" parameterType="department">
   			insert into t_department(dnumber,dname,d_pid) values(department.dnumber,department.dname,department.position.pid);
