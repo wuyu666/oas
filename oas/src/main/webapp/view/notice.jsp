@@ -159,7 +159,7 @@
 	<input type="button" value="修改" id="update">
 	<input type="button" value="增加" id="add">
 	<input type="button" value="删除" id="delete">
-	<table id="table" class="easyui-datagrid"  url="<%=basePath%>userServlet?cmd=queryUsers" pagination="true"  method="post">
+	<table id="table" class="easyui-datagrid"  url="${pageContext.request.contextPath}/notice/doSelect.do" pagination="true"  method="post">
 		<thead>
 			<tr>
 				<th field="ck" checkbox="true"></th>

@@ -11,5 +11,5 @@ public interface INoticeMapper {
 	public long queryCount(Map<String, Object> map);;
 	boolean add(Notice no);
 	boolean update(Notice no);
-	boolean delete(Notice no);
+	boolean delete(Integer nid);
 }
