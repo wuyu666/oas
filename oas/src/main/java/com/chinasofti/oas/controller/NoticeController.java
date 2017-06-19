@@ -26,9 +26,16 @@ public class NoticeController {
 	@Resource	
 	private INoticeService noticeService;
 	
-	
+	/**
+	 * 查询公告
+	 * @param page
+	 * @param rows
+	 * @param no
+	 * @param res
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/doSelect")
-	@ResponseBody
 	public String doSelect(@RequestParam(value="page",required=false) String page,@RequestParam(value="rows",required=false) String rows,Notice no,HttpServletResponse res) throws Exception{
         PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(rows));
         Map<String,Object> map=new HashMap<String,Object>();
@@ -36,7 +43,7 @@ public class NoticeController {
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
         List<Notice> noList=noticeService.queryNotice(map);
-        Long total=noticeService.queryCount(map);
+        int total=noticeService.queryCount(map);
         JSONObject result=new JSONObject();
         JSONArray jsonArray=JSONArray.fromObject(noList);
         result.put("rows", jsonArray);
@@ -44,4 +51,47 @@ public class NoticeController {
         ResponseUtil.write(res, result);
         return null;
     }
+	/**
+	 * 添加或修改公告
+	 * @param no
+	 * @param res
+	 * @return
+	 * @throws Exception
+	 */
+	 @RequestMapping("/save")
+	    public String save(Notice no,HttpServletResponse res) throws Exception{
+	        //操作记录条数，初始化为0
+	        int resultTotal = 0;
+	        if (no.getNid() == null) {
+	            resultTotal = noticeService.add(no);
+	        }else{
+	            resultTotal = noticeService.update(no);
+	        }
+	        JSONObject jsonObject = new JSONObject();
+	        if(resultTotal > 0){   //说明修改或添加成功
+	            jsonObject.put("success", true);
+	        }else{
+	            jsonObject.put("success", false);
+	        }
+	        ResponseUtil.write(res, jsonObject);
+	        return null;
+	    }
+	 /**
+	  * 删除公告
+	  * @param ids
+	  * @param res
+	  * @return
+	  * @throws Exception
+	  */
+	 @RequestMapping("/delete")
+	    public String delete(@RequestParam(value="ids") String ids,HttpServletResponse res) throws Exception{
+	        String[] idStr = ids.split(",");
+	        JSONObject jsonObject = new JSONObject();
+	        for (String id : idStr) {
+	        	noticeService.delete(Integer.parseInt(id));
+	        }
+	        jsonObject.put("success", true);
+	        ResponseUtil.write(res, jsonObject);
+	        return null;
+	    }
 }

@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Notice {
 //	公告id
-	private int nid;
+	private Integer nid;
 //	公告范围
 	private String nrange;
 //	公告主题
@@ -17,7 +17,7 @@ public class Notice {
 	private String ncontent;
 //	创建时间
 	private Date ntime;
-	public int getNid() {
+	public Integer getNid() {
 		return nid;
 	}
 	public void setNid(int nid) {
