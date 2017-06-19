@@ -45,7 +45,7 @@
         var row = selectedRows[0];
         $("#dlg").dialog("open").dialog("setTitle", "编辑公告信息");
         $("#fm").form("load", row);
-        url = "${pageContext.request.contextPath}/user/save.do?id=" + row.id;
+        url = "${pageContext.request.contextPath}/notice/save.do?id=" + row.id;
     }
     
     function saveNotice() {
