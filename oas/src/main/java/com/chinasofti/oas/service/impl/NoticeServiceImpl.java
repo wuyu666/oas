@@ -22,7 +22,7 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public int queryCount(Map<String, Object> map) {
+	public long queryCount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return nomapper.queryCount(map);
 	}

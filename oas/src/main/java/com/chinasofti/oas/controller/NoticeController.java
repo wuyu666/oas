@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.chinasofti.oas.bean.Notice;
 import com.chinasofti.oas.bean.PageBean;
 import com.chinasofti.oas.service.INoticeService;
+import com.chinasofti.oas.utils.DateUtil;
 import com.chinasofti.oas.utils.ResponseUtil;
 import com.chinasofti.oas.utils.StringUtil;
 
@@ -43,11 +44,14 @@ public class NoticeController {
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
         List<Notice> noList=noticeService.queryNotice(map);
-        int total=noticeService.queryCount(map);
+        long total=noticeService.queryCount(map);
         JSONObject result=new JSONObject();
         JSONArray jsonArray=JSONArray.fromObject(noList);
         result.put("rows", jsonArray);
         result.put("total", total);
+        System.out.println(noList.toString());
+        System.out.println(total);
+        
         ResponseUtil.write(res, result);
         return null;
     }
@@ -63,8 +67,10 @@ public class NoticeController {
 	        //操作记录条数，初始化为0
 	        int resultTotal = 0;
 	        if (no.getNid() == null) {
+	        	System.out.println("id1="+no.getNid());
 	            resultTotal = noticeService.add(no);
 	        }else{
+	        	System.out.println("id2="+no.getNid());
 	            resultTotal = noticeService.update(no);
 	        }
 	        JSONObject jsonObject = new JSONObject();

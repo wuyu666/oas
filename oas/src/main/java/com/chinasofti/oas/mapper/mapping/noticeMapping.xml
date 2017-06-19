@@ -24,13 +24,13 @@
   			</if>
   		</where>
   	</sql>
-  	<select id="queryCount" parameterType="java.util.Map" resultMap="Long">
+  	<select id="queryCount" parameterType="java.util.Map" resultType="long">
   		select count(*) from t_notice
   		<include refid="no1" />
   	</select>
   	<!-- 公告添加 -->
     <insert id="add" parameterType="notice">
-        insert into t_notice values(null,#{nrange},#{ntheme},#{ncontent},#{ntime})
+        insert into t_notice (nid,nrange,ntheme,ncontent,ntime) values(null,#{nrange},#{ntheme},#{ncontent},#{ntime})
     </insert>
     
     <!-- 公告修改 -->

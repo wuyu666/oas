@@ -28,7 +28,7 @@
     function searchNrange() {
 //load的参数为一个json对象，里面写的是你要传输的参数的键值对，调用这个方法来加载数据的时候，它传给后台的分页信息是从第一页开始的。
         $("#dg").datagrid('load', {
-            "nrange" : $("#s_nrange").val()
+            "nrange" : $("#s_nrange").val(),
         });
     }
     function openNoticeAddDialog() {
