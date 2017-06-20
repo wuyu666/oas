@@ -8,8 +8,8 @@ import com.chinasofti.oas.bean.Notice;
 public interface INoticeService {
 	public List<Notice> queryNotice(Map<String, Object> map);
 	public long queryCount(Map<String, Object> map);;
-	public int add(Notice no);
-	public int update(Notice no);
+	public boolean add(Notice no);
+	public boolean update(Notice no);
 	public int delete(Integer nid);
 	
 }

@@ -30,7 +30,7 @@
   	</select>
   	<!-- 公告添加 -->
     <insert id="add" parameterType="notice">
-        insert into t_notice (nid,nrange,ntheme,ncontent,ntime) values(null,#{nrange},#{ntheme},#{ncontent},#{ntime})
+        insert into t_notice (nrange,ntheme,ncontent,ntime) values(#{nrange},#{ntheme},#{ncontent},now())
     </insert>
     
     <!-- 公告修改 -->
@@ -40,7 +40,7 @@
             <if test="nrange != null and nrange != ''">nrange = #{nrange},</if>
             <if test="ntheme != null and ntheme != ''">ntheme = #{ntheme},</if>
             <if test="ncontent != null and ncontent != ''">ncontent = #{ncontent},</if>
-            <if test="ntime != null and ntime != ''">ntime = #{ntime},</if>
+            <if test="ntime != null and ntime != ''">ntime = now(),</if>
         </set>
         where nid = #{nid}
     </update>

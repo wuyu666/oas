@@ -28,15 +28,21 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public int add(Notice no) {
-		// TODO Auto-generated method stub
-		return nomapper.add(no);
+	public boolean add(Notice no) {
+		int row=nomapper.add(no);
+		if(row>0)
+			return true;
+		
+		return false;
 	}
 
 	@Override
-	public int update(Notice no) {
-		// TODO Auto-generated method stub
-		return nomapper.update(no);
+	public boolean update(Notice no) {
+		int row=nomapper.update(no);
+		if(row>0)
+			return true;
+		
+		return false;
 	}
 
 	@Override
