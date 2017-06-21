@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.chinasofti.oas.mapper.IEmployeeMapper">
+  		<resultMap id="results" type="employee">
+  			<id column="eid" property="eid"/>
+  			<result column="enumber" property="enumber"/>
+  			<result column="ename" property="ename"/>
+  			<result column="esex" property="esex"/>
+  			<result column="eage" property="eage"/>
+  			<result column="etel" property="etel"/>
+  			<result column="eaddress" property="eaddress"/>
+  			<result column="eemail" property="eemail"/>
+  			<result column="eentrydate" property="eentrydate"/>
+  			<association column="e_did" property="department" javaType="department">
+  				<id column="did" property="did"/>
+  				<result column="dnumber" property="dnumber"/>
+  				<result column="dname" property="dname"/>
+  			</association>
+  			<association column="e_pid" property="position" javaType="position">
+  				<id column="pid" property="pid"/>
+  				<result column="pname" property="pname"/>
+  			</association>
+  			<association column="e_sid" property="salary" javaType="salary">
+  				<id column="sid" property="sid"/>
+  				<result column="svalue" property="svalue"/>
+  			</association>
+  		</resultMap>
+  		<select id="queryEmployee" resultMap="results" parameterType="pages">
+  			select e.*,d.dname,p.pname,s.svalue from t_employee as e
+  			 left join t_department as d on e.e_did=d.did
+  			 left join t_position as p on e.e_pid=p.pid
+  			 left join t_salary as s on e.e_sid=s.sid
+  			 <include refid="condition"/>
+  			 limit #{start},#{pageSize}
+  		</select>
+  		<select id="queryCount" parameterType="pages" resultType="int">
+  			select count(*) from t_employee as e
+  			 left join t_department as d on e.e_did=d.did
+  			 left join t_position as p on e.e_pid=p.pid
+  			 left join t_salary as s on e.e_sid=s.sid
+  			 <include refid="condition"/>
+  		</select>
+  		<update id="updateEmployee" parameterType="employee">
+  			update t_employee set esex=#{esex},eage=#{eage},e_did=#{department.did},e_pid=#{position.pid},etel=#{etel},eaddress=#{eaddress},eemail=#{eemail},eentrydate=#{eentrydate}
+  			<where>
+  				eid=#{eid}
+  			</where>
+  		</update>
+  		<insert id="insertEmployee" parameterType="employee">
+  			insert into t_employee(enumber,ename,esex,eage,e_did,e_pid,e_sid,etel,eaddress,eemail,eentrydate) values(#{enumber},#{ename},#{esex},#{eage},#{department.did},#{position.pid},#{salary.sid},#{etel},#{eaddress},#{eemail},#{eentrydate})
+  		</insert>
+  		
+  		<delete id="deleteEmployee">
+  			delete from t_employee where eid in
+  			<foreach collection="array" open="(" close=")" separator="," item="eid">
+  				#{eid}
+  			</foreach>
+  		</delete>
+  		<sql id="condition">
+  			<where>
+  				 <if test="query!=null and query.ename!=null and query.ename!=''">
+  					and e.ename=#{query.ename}
+  				</if>
+  				<if test="query!=null and query.esex!=null and query.esex!=''">
+  					and e.esex=#{query.esex}
+  				</if>
+  				<if test="query!=null and query.department!=null and query.department.dname!=null and query.department.dname!=''">
+  					and d.dname=#{query.department.dname}
+  				</if>
+  				<if test="query!=null and query.position!=null and query.position.pname!=null and query.position.pname!=''">
+  					and p.pname=#{query.position.pname}
+  				</if>
+  			</where>
+  		</sql>
+  </mapper>
