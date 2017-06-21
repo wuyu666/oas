@@ -9,7 +9,7 @@ import com.chinasofti.oas.bean.Page;
 public interface INoticeMapper {
 	public List<Notice> queryNotice(Map<String, Object> map);
 	public long queryCount(Map<String, Object> map);;
-	boolean add(Notice no);
-	boolean update(Notice no);
-	boolean delete(Integer nid);
+	public int add(Notice no);
+	public int update(Notice no);
+	public int delete(Integer nid);
 }

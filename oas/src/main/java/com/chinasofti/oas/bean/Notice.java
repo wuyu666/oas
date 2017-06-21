@@ -1,6 +1,8 @@
 package com.chinasofti.oas.bean;
 
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * lixianfeng
  * @author Administrator
@@ -8,7 +10,7 @@ import java.util.Date;
  */
 public class Notice {
 //	公告id
-	private int nid;
+	private Integer nid;
 //	公告范围
 	private String nrange;
 //	公告主题
@@ -16,11 +18,12 @@ public class Notice {
 //	公告内容
 	private String ncontent;
 //	创建时间
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date ntime;
-	public int getNid() {
+	public Integer getNid() {
 		return nid;
 	}
-	public void setNid(int nid) {
+	public void setNid(Integer nid) {
 		this.nid = nid;
 	}
 	public String getNrange() {

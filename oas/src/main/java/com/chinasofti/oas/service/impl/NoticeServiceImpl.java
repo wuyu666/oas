@@ -12,11 +12,9 @@ import com.chinasofti.oas.bean.Notice;
 import com.chinasofti.oas.service.INoticeService;
 @Service
 public class NoticeServiceImpl implements INoticeService{
+	@Resource
 	private INoticeMapper nomapper;
-	@Resource  
-	    public void setNoMapper(INoticeMapper nomapper) {  
-	        this.nomapper = nomapper;  
-	    }  
+	  
 	@Override
 	public List<Notice> queryNotice(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -31,20 +29,27 @@ public class NoticeServiceImpl implements INoticeService{
 
 	@Override
 	public boolean add(Notice no) {
-		// TODO Auto-generated method stub
-		return nomapper.add(no);
+		int row=nomapper.add(no);
+		if(row>0)
+			return true;
+		
+		return false;
 	}
 
 	@Override
 	public boolean update(Notice no) {
-		// TODO Auto-generated method stub
-		return nomapper.update(no);
+		int row=nomapper.update(no);
+		if(row>0)
+			return true;
+		
+		return false;
 	}
 
 	@Override
-	public boolean delete(Integer nid) {
+	public int delete(Integer nid) {
 		// TODO Auto-generated method stub
 		return nomapper.delete(nid);
 	}
+
 	
 }
