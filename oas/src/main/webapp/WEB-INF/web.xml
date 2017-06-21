@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-<display-name>oas</display-name>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>oas1</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -9,30 +9,36 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <!-- 程序启动时读取spring.xml配置文件 -->
   <context-param>
-  	<param-name>contextConfigLocation</param-name>
-  	<param-value>classpath:spring.xml</param-value>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring.xml</param-value>
   </context-param>
-  <!-- 配置spring容器监听器 -->
   <listener>
-  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  
-  <!-- 配置springmvc拦截器 -->
   <servlet>
-  	<servlet-name>springMVC</servlet-name>
-  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-  	<!-- 初始化时读取配置文件 -->
-  	<init-param>
-  		<param-name>contextConfigLocation</param-name>
-  		<param-value>classpath:spring-mvc.xml</param-value>
-  	</init-param>
-  	<load-on-startup>1</load-on-startup>
+    <servlet-name>springMVC</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring-mvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
   </servlet>
-  <!-- 配置url访问地址映射 -->
   <servlet-mapping>
-  	<servlet-name>springMVC</servlet-name>
-  	<url-pattern>*.do</url-pattern>
+    <servlet-name>springMVC</servlet-name>
+    <url-pattern>*.do</url-pattern>
   </servlet-mapping>
+  <filter>
+		<filter-name>characterFiler</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterFiler</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

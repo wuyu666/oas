@@ -11,7 +11,7 @@ public class Department {
 	/**
 	 * 部门id
 	 */
-	private int did;
+	private Integer did;
 	/**
 	 * 部门编号
 	 */
@@ -25,10 +25,10 @@ public class Department {
 	 */
 	private List<Position> positions;
 	
-	public int getDid() {
+	public Integer getDid() {
 		return did;
 	}
-	public void setDid(int did) {
+	public void setDid(Integer did) {
 		this.did = did;
 	}
 	public String getDnumber() {

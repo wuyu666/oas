@@ -23,7 +23,9 @@
   		<select id="insertDepartment" parameterType="department">
   			insert into t_department(dnumber,dname,d_pid) values(department.dnumber,department.dname,department.position.pid);
   		</select>
-  		<select id="updateDepartment"></select>
+  		<select id="updateDepartment">
+  			update t_department set dnumber=#{dnumber},dname=#{dname} where did=#{did}
+  		</select>
   		<select id="deleteDepartment">
   			delete from t_department where id=#{_parameter}
   		</select>

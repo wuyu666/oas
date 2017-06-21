@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.chinasofti.oas.bean.Department;
 import com.chinasofti.oas.service.IDepartmentService;
 
+import net.sf.json.JSONObject;
+
 /**
  * 部门Action
  * @author wy
@@ -50,8 +52,10 @@ public class DepartmentAction {
 	 */
 	@RequestMapping("/toUpdate")
 	
-	public String toUpdate(){
-		String url="toUpdate";
+	public String toUpdate(int id){
+		Department deparment=departmentService.queryDepartmentById(id);
+		JSONObject json=JSONObject.fromObject(deparment);
+		
 		return "toUpdate";
 	}
 	/**
