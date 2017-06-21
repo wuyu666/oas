@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * lixianfeng
+ * 公告
  * @author Administrator
  *
  */
@@ -20,6 +21,10 @@ public class Notice {
 //	创建时间
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date ntime;
+//	开始时间结束时间
+	private String startDate;
+	private String endDate;
+	
 	public Integer getNid() {
 		return nid;
 	}
@@ -49,6 +54,19 @@ public class Notice {
 	}
 	public void setNtime(Date ntime) {
 		this.ntime = ntime;
+	}
+	
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	@Override
 	public String toString() {

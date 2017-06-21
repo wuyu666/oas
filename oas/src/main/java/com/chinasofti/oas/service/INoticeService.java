@@ -1,15 +1,16 @@
 package com.chinasofti.oas.service;
 
-import java.util.List;
 import java.util.Map;
 
+
 import com.chinasofti.oas.bean.Notice;
+import com.chinasofti.oas.bean.Page;
 
 public interface INoticeService {
-	public List<Notice> queryNotice(Map<String, Object> map);
-	public long queryCount(Map<String, Object> map);;
-	public boolean add(Notice no);
-	public boolean update(Notice no);
-	public int delete(Integer nid);
+	public void queryNotice(Page<Notice> page);
+	public int queryCount(Page<Notice> page);;
+	public boolean addNotice(Notice no);
+	public boolean updateNotice(Notice no);
+	public int deleteNotice(Integer nid);
 	
 }

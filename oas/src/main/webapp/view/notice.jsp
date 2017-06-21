@@ -4,162 +4,183 @@
 <% String path=request.getContextPath();
    String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>公告</title>
-</head>
-<script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>jquery-easyui-1.5.2/plugins/jquery.validatebox.js"></script>
-<script type="text/javascript" src="<%=basePath%>jquery-easyui-1.5.2/plugins/jquery.pagination.js"></script>
-<script type="text/javascript" src="<%=basePath%>jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
-<link rel="stylesheet" href="<%=basePath%>jquery-easyui-1.5.2/themes/default/easyui.css">
-<link rel="stylesheet" href="<%=basePath%>jquery-easyui-1.5.2/themes/icon.css">
+<base href="${pageContext.request.contextPath}/">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/plugins/jquery.validatebox.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/plugins/jquery.pagination.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/jquery-easyui-1.5.2/themes/default/easyui.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/jquery-easyui-1.5.2/themes/icon.css">
 <script type="text/javascript">
-	$(function(){
-		//通过table标签得的一个分页插件
-		var pp=$("#table").datagrid("getPager");	
-		$(pp).pagination({			
-			pageSize:10,
-			pageList:[2,3,5,10],
-			beforePageText:"第",	
-			afterPageText:"页    共{pages}页",
-			displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',  
-			onSelectPage:function(curPage,pageSize){
-				var data={
-						curPage:curPage,
-						pageSize:pageSize,
-						username:$("#qusername").val(),
-						realname:$("#qrealname").val(),
-						startDate:$("#start").val(),
-						endDate:$("#end").val(),
-				}
-				//发送ajax请求
-				//$("#table").datagrid("reload",data);
-				$.ajax({
-					url:"<%=basePath%>userServlet?cmd=queryUsers",
-					type:"post",
-					dataType:"json",
-					data:data,
-					success:function(respData){
-						$("#table").datagrid("loadData",respData)
-					}
-					
-				});
-				
-			}
-		});
-		
-		$("#update").click(function(){
-			//获取选中行，如果选中了多行，则获取的是第一个选中行
-			var row=$("#table").datagrid("getSelected");
-			$("#uusername").textbox({
-				readonly:true
-			});
-			$("#updateDlg").dialog("open").dialog("setTitle","修改公告");
-			$("#saveUrl").val("<%=basePath%>userServlet?cmd=updateUser");
-			/* 
-			//1.为每一个输入框赋值
-			$("#uusername").textbox("setValue",row.username);
-			$("#uuserpwd").textbox("setValue",row.userpwd);
-			$("#urealname").textbox("setValue",row.realname); */
-			
-			//直接将row里面的数据一次性赋值给有name属性的标签，并且name属性必须与row里面的属性想对应
-			$("#updateForm").form("load",row);
-		})
-		$("#add").click(function(){
-			$("#updateForm").form("clear");
-			$("#updateDlg").dialog("open").dialog("setTitle","添加公告");
-			$("#saveUrl").val("<%=basePath%>userServlet?cmd=addUser");
-			$("#uusername").textbox({
-				readonly:false,
-				required:false
-			});
-			
-		});
-		
-		$("#delete").click(function(){
-			var rows=$("#table").datagrid("getSelections");
-			if(rows.length>0){
-				var idArr=new Array();
-				$.each(rows,function(index,row){
-					//将值放入数组里面
-					idArr.push(row.id);
-				})
-				
-				$.ajax({
-					url:"<%=basePath%>userServlet?cmd=deleteUser",
-					type:"post",
-					dataType:"json",
-					data:{
-						ids:idArr.toString()
-					},
-					success:function(data){
-						//var json=eval("("+data+")");
-						alert(data.tip);
-						$("#table").datagrid("reload");
-					}
-							
-				})
-			}else{
-				alert("请选择要删除的数据");
-			}
-		})
-		
-		$("#query").click(function(){
+$(function(){
+	//通过table标签得的一个分页插件
+	var pp=$("#table").datagrid("getPager");	
+	$(pp).pagination({			
+		pageSize:10,
+		pageList:[2,3,5,10],
+		beforePageText:"第",	
+		afterPageText:"页    共{pages}页",
+		displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',  
+		onSelectPage:function(curPage,pageSize){
 			var data={
-					curPage:$("#table").datagrid("getPager").pagination("options").pageNumber,
-					pageSize:$("#table").datagrid("getPager").pagination("options").pageSize,
-					username:$("#qusername").val(),
-					realname:$("#qrealname").val(),
-					startDate:$("#start").val(),
-					endDate:$("#end").val(),
+					curPage:curPage,
+					pageSize:pageSize,
+					nrange:$("#nrange").val(),
+					startDate:$("#startDate").val(),
+					endDate:$("#endDate").val(),
 			}
 			//发送ajax请求
-			$("#table").datagrid("load",data);
-		})
+			$("#table").datagrid("reload",data);
+			<%-- $.ajax({
+				url:"<%=basePath%>userServlet?cmd=queryUsers",
+				type:"post",
+				dataType:"json",
+				data:data,
+				success:function(respData){
+					$("#table").datagrid("loadData",respData)
+				}
+				
+			}); --%>
+			
+		}
+	});
+	
+	$("#update").click(function(){
+		var rows=$("#table").datagrid("getSelections");
+	
+		if(rows.length<1){
+			alert("请选择要删除的行");
+			return;
+		}
+		$("#updateDlg").dialog("open").dialog("setTitle","修改公告信息");
+		$("#updateForm").form("load",rows[0]);
+		$("#saveUrl").val("${pageContext.request.contextPath}/notice/updateNotice.do");
 		
 	})
-	function update(){
-	
-		$("#updateForm").form("submit",
-				{
-					url:$("#saveUrl").val(),
-					onSubmit:function(){
-				
-						return $(this).form('validate');
-					},
-					success:function(data){
-						var json=eval("("+data+")");
-						alert(json.tip);
-						$("#updateDlg").dialog("close");
-						$("#table").datagrid("reload");
-					}
-			
-				});
-		
-	}
-	function closeDlg(){
+	$("#add").click(function(){
 		$("#updateForm").form("clear");
-		$("#updateDlg").dialog("close");
-	}
+		$("#updateDlg").dialog("open").dialog("setTitle","增加公告信息");
+		$("#saveUrl").val("${pageContext.request.contextPath}/notice/addNotice.do");
+		
+		//发送ajax请求添加
+		/* $.ajax({
+			url:$("#").val(),
+			type:"post",
+			dataType:"json",
+			data:$("#updateForm").serialize(),
+			success:function(resp){
+				alert(resp.tip);
+				$("#updateDlg").dialog("close");
+				$("#table").datagrid("reload");
+			}
+		}); */
+		
+	});
 	
-</script>
+	$("#delete").click(function(){
+		var rows=$("#table").datagrid("getSelections");
+		if(rows.length>0){
+			var idArr=new Array();
+			$.each(rows,function(index,row){
+				//将值放入数组里面
+				idArr.push(row.uid);
+			})
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/notice/deleteNotice.do",
+				type:"post",
+				dataType:"json",
+				data:{
+					ids:idArr.toString()
+				},
+				success:function(data){
+					//var json=eval("("+data+")");
+					alert(data.tip);
+					$("#table").datagrid("reload");
+				}						
+			})
+		}else{
+			alert("请选择要删除的数据");
+		}
+	})
+	
+	$("#query").click(function(){
+		
+		var data={
+				curPage:$("#table").datagrid("getPager").pagination("options").pageNumber,
+				pageSize:$("#table").datagrid("getPager").pagination("options").pageSize,
+				nrange:$("#nrange").val(),
+				startDate:$("#startDate").val(),
+				endDate:$("#endDate").val(),
+		}
+		//发送ajax请求
+		/* $.ajax({
+			url:"user/queryUsers.do",
+			type:"post",
+			dataType:"json",
+			data:$("#queryForm").serialize(),
+			success:function(resp){
+				$("#table").datagrid("loadData",resp);
+			}
+		}); */
+		
+		$("#table").datagrid("load",data);
+	})
+})
+function update(){
 
+	$("#updateForm").form("submit",
+			{
+				url:$("#saveUrl").val(),
+				onSubmit:function(){
+			
+					return $(this).form('validate');
+				},
+				success:function(data){
+					var json=eval("("+data+")");
+					alert(json.tip);
+					$("#updateDlg").dialog("close");
+					$("#table").datagrid("reload");
+				}
+		
+			});
+	
+}
+function closeDlg(){
+	$("#updateForm").form("clear");
+	$("#updateDlg").dialog("close");
+}
+</script>
+</head>
 
 </head>
 <body>
 	<form id="queryForm">
 		<label>公告范围：</label><input class="easyui-textbox" name="nrange" id="nrange">
 		
-		<label>创建时间：</label><input class="easyui-datebox" name="createDateStart" id="start">-<input class="easyui-datebox" name="createDateEnd" id="end">
+		<label>创建时间：</label><input
+			class="easyui-datebox" name="startDate" id="startDate">
+		-<input class="easyui-datebox" name="endDate" id="endDate">
 	</form>
 	<input type="button" value="查询" id="query">
 	<input type="button" value="修改" id="update">
 	<input type="button" value="增加" id="add">
 	<input type="button" value="删除" id="delete">
-	<table id="table" class="easyui-datagrid"  url="${pageContext.request.contextPath}/notice/doSelect.do" pagination="true"  method="post">
+	<table id="table" class="easyui-datagrid"  
+	url="${pageContext.request.contextPath}/notice/queryNotice.do" pagination="true"  method="post">
 		<thead>
 			<tr>
 				<th field="ck" checkbox="true"></th>
@@ -179,22 +200,32 @@
 			<input type="hidden" name="id">
 			<table align="center">
 				<tr>
-					<td><label>公告范围：</label></td>
-					<td><input class="easyui-textbox" name="nrange" id="nrange" data-options="readonly:'readonly', required:true"/></td>
+					<td><label>创建时间：</label></td>
+					<td><input class="easyui-datetimebox"  name="ntime"  id="ntime" required="true"/></td>
 				</tr>
+				<tr>
+					<td><label>公告范围：</label></td>
+					<td><select name="nrange" class="easyui-combobox"
+                            id="nrange" style="width: 154px;" editable="false"
+                            panelHeight="auto">
+                                <option value="">请选择公告范围</option>
+                                <option value="技术部">技术部</option>
+                                <option value="销售部">销售部</option>
+                                <option value="财务部">财务部</option>
+                                <option value="人事部">人事部</option>
+                                <option value="全公司">全公司</option>
+                        </select></td>
+				</tr>
+				
 				<tr>
 					<td><label>公告主题：</label></td>
 					<td><input class="easyui-textbox" name="ntheme" id="ntheme"  required="true"/></td>
 				</tr>
-				
 				<tr>
 					<td><label>公告内容：</label></td>
-					<td><input class="easyui-textbox" name="ncontent"  id="ncontent" required="true"/></td>
+					<td><input class="easyui-textbox" name="ncontent"  id="ncontent" required="true" style="height:100px"/></td>
 				</tr>
-				<tr>
-					<td><label>创建时间：</label></td>
-					<td><input class="easyui-datebox"  name="ntime"  id="ntime" required="true"/></td>
-				</tr>
+				
 				
 			</table>
 			

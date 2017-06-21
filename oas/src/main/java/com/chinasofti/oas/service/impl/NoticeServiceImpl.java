@@ -1,7 +1,6 @@
 package com.chinasofti.oas.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,27 +8,30 @@ import org.springframework.stereotype.Service;
 
 import com.chinasofti.oas.mapper.INoticeMapper;
 import com.chinasofti.oas.bean.Notice;
+import com.chinasofti.oas.bean.Page;
 import com.chinasofti.oas.service.INoticeService;
-@Service
+@Service("noticeService")
 public class NoticeServiceImpl implements INoticeService{
 	@Resource
 	private INoticeMapper nomapper;
 	  
 	@Override
-	public List<Notice> queryNotice(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return nomapper.queryNotice(map);
+	public void queryNotice(Page<Notice> page) {
+		List<Notice> list=nomapper.queryNotice(page);
+		int total=nomapper.queryCount(page);
+		page.setRows(list);
+		page.setTotal(total);
 	}
 
 	@Override
-	public long queryCount(Map<String, Object> map) {
+	public int queryCount(Page<Notice> page) {
 		// TODO Auto-generated method stub
-		return nomapper.queryCount(map);
+		return nomapper.queryCount(page);
 	}
 
 	@Override
-	public boolean add(Notice no) {
-		int row=nomapper.add(no);
+	public boolean addNotice(Notice no) {
+		int row=nomapper.addNotice(no);
 		if(row>0)
 			return true;
 		
@@ -37,8 +39,8 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public boolean update(Notice no) {
-		int row=nomapper.update(no);
+	public boolean updateNotice(Notice no) {
+		int row=nomapper.updateNotice(no);
 		if(row>0)
 			return true;
 		
@@ -46,9 +48,9 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public int delete(Integer nid) {
+	public int deleteNotice(Integer nid) {
 		// TODO Auto-generated method stub
-		return nomapper.delete(nid);
+		return nomapper.deleteNotice(nid);
 	}
 
 	
