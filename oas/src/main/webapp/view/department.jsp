@@ -5,7 +5,7 @@
 <head>
 <script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/plugins/jquery.pagination.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery-easyui-1.5.2/themes/default/easyui.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>部门查询</title>
@@ -29,57 +29,62 @@
 					<th field="pname" width="80">职位</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					
-				</tr>
-			</tbody>
 		</table>
+	</div>
+	<div>
+		
 	</div>
 </body>
 <script type="text/javascript">
-	$(function(){
-		//通过table标签得的一个分页插件
-		var pp=$("#table").datagrid("getPager");	
-		$(pp).pagination({			
-			pageSize:10,
-			pageList:[2,3,5,10],
-			beforePageText:"第",	
-			afterPageText:"页    共{pages}页",
-			displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',  
-			onSelectPage:function(curPage,pageSize){
-				var data={
-						curPage:curPage,
-						pageSize:pageSize,
-						dname:$("#dname").val(),
-						
+$(function(){
+	//通过table标签得的一个分页插件
+	var pp=$("#table").datagrid("getPager");	
+	$(pp).pagination({			
+		pageSize:10,
+		pageList:[2,3,5,10],
+		beforePageText:"第",	
+		afterPageText:"页    共{pages}页",
+		displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',  
+		onSelectPage:function(curPage,pageSize){
+			var data={
+					curPage:curPage,
+					pageSize:pageSize,
+					username:$("#dname").val(),
+			}
+			//发送ajax请求
+			//$("#table").datagrid("reload",data);
+			$.ajax({
+				url:"${pageContext.request.contextPath}/department/doQuery.do",
+				type:"post",
+				dataType:"json",
+				data:data,
+				success:function(respData){
+					$("#table").datagrid("loadData",respData)
 				}
-				//发送ajax请求
-				//$("#table").datagrid("reload",data);
-				$.ajax({
-					url:"${pageContext.request.contextPath}/department/doQuery.do",
-					type:"post",
-					dataType:"json",
-					data:data,
-					success:function(respData){
-						$("#table").datagrid("loadData",respData)
-					}
-					
-				});
-				
+			});
+			
+		}
+	});
+	$("#queryBtn").click(function(){
+		var data={
+				curPage:$("#table").datagrid("getPager").pagination("options").pageNumber,
+				pageSize:$("#table").datagrid("getPager").pagination("options").pageSize,
+				username:$("#dname").val(),
+		}
+		//发送ajax请求
+		//$("#table").datagrid("load",data);
+		$.ajax({
+			url:"${pageContext.request.contextPath}/department/doQuery.do",
+			type:"post",
+			dataType:"json",
+			data:data,
+			success:function(respData){
+				$("#table").datagrid("loadData",respData)
 			}
 		});
-		$("#dBtn").click(function(){
-			$.ajax({
-				type:"post",
-				url:"${pageContext.request.contextPath}/department/doQuery.do",
-				dataType:"json",
-				data:$("#dform").serialize(),
-				success:function(){
-					
-				}
-			})
-		})
 	})
+	
+})
+
 </script>
 </html>

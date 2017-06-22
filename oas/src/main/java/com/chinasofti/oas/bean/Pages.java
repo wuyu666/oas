@@ -1,9 +1,8 @@
 package com.chinasofti.oas.bean;
 
-
 import java.util.List;
 
-public class Page<T> {
+public class Pages<T> {
 	private T query;
 	private Integer pageSize=10;
 	private Integer curPage=1;
@@ -11,7 +10,7 @@ public class Page<T> {
 	
 	private int total;
 	private List<T> rows;
-	
+
 	public Integer getPageSize() {
 		return pageSize;
 	}
@@ -63,7 +62,8 @@ public class Page<T> {
 
 	@Override
 	public String toString() {
-		return "Page [pageSize=" + pageSize + ", total=" + total + ", curPage=" + curPage + ", start=" + start
-				+ ", rows=" + rows + ", query=" + query + "]";
+		return "Pages [query=" + query + ", pageSize=" + pageSize + ", curPage=" + curPage + ", start=" + start
+				+ ", total=" + total + ", rows=" + rows + "]";
 	}
+	
 }
