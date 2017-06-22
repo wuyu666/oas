@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,7 +30,11 @@
 <body>
 	<div class="easyui-layout" style="width:100%;height:768px">
 		<div region="north" split="true" style="height: 100px;width: 100%">
-			顶部
+			<c:set value="张三" var="uname" scope="session" />
+			<c:set value="1" var="uid" scope="session" />
+			<c:if test="${uname != null and uname != '' }">
+				用户<span>${uname}</span>登录，欢迎您！
+			</c:if>
 		</div>
 		<div region="west" split="true" title="导航菜单" style="width:150px;height:500px">
 			<div class="easyui-accordion" style="width:150px;height:500px">
@@ -41,6 +46,10 @@
 				<div title="用户管理">
 					<a>员工管理</a><br>
 					<a>学生管理</a>
+				</div>
+				<div title="考勤管理">
+					<a href="javascript:void(0);" onclick="openTbs('考勤管理','attendance.jsp');">考勤管理</a><br>
+					<a href="javascript:void(0);" onclick="openTbs('考勤管理','attendance.jsp');">考勤管理1</a>
 				</div>
 				<div title="用户管理">
 					<a>员工管理</a><br>
