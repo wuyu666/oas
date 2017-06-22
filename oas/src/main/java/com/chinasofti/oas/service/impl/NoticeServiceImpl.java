@@ -48,9 +48,12 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public int deleteNotice(Integer nid) {
-		// TODO Auto-generated method stub
-		return nomapper.deleteNotice(nid);
+	public boolean deleteNotice(int[] nid) {
+		int row=nomapper.deleteNotice(nid);
+		if(row>0)
+			return true;
+		
+		return false;
 	}
 
 	

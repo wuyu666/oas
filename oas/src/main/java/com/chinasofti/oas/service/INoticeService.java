@@ -11,6 +11,6 @@ public interface INoticeService {
 	public int queryCount(Page<Notice> page);;
 	public boolean addNotice(Notice no);
 	public boolean updateNotice(Notice no);
-	public int deleteNotice(Integer nid);
+	public boolean deleteNotice(int[] nid);
 	
 }

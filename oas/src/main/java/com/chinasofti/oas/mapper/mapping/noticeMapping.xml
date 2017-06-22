@@ -2,56 +2,57 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.chinasofti.oas.mapper.INoticeMapper">
-  	<resultMap id="noticeResults" type="notice" >
-  		<id column="nid" property="nid"/>
-  		<result column="nrange" property="nrange"/>
-  		<result column="ntheme" property="ntheme"/>
-  		<result column="ncontent" property="ncontent"/>
-  		<result column="ntime" property="ntime"/>
-  	</resultMap>
-  	<select id="queryNotice" parameterType="page" resultMap="noticeResults">
-  		select * from t_notice
-  		<include refid="no1" />
-  		
-            limit #{start},#{pageSize}
-        
-  	</select>
-  	<sql id="no1">
-  		<where>
-  			<if test="query!= null and query.nrange != null and query.nrange!=''">
-  				and nrange=#{nrange}
-  			</if>
-  			<if test="query!= null and query.startDate != null and query.startDate !=''">
-  				and ntime &gt; ${startDate}
-  			</if>
-  			<if test="query!= null and query.endDate != null and query.endDate !=''">
-  				and ntime &lt; ${endDate}
-  			</if>
-  		</where>
-  	</sql>
-  	<select id="queryCount" parameterType="page" resultType="int">
-  		select count(*) from t_notice
-  		<include refid="no1" />
-  	</select>
-  	<!-- 公告添加 -->
-    <insert id="addNotice" parameterType="notice">
-        insert into t_notice (nrange,ntheme,ncontent,ntime) values(#{nrange},#{ntheme},#{ncontent},now())
-    </insert>
-    
-    <!-- 公告修改 -->
-    <update id="updateNotice" parameterType="notice">
-        update t_notice set
-			nrange = #{nrange},
-            ntheme = #{ntheme},
-            ncontent = #{ncontent},
-            ntime = now(),
-			where nid = #{nid}
-    </update>
-    
-    <!-- 公告删除 -->
-    <delete id="deleteNotice" parameterType="Integer">
-        delete from t_notice where nid = #{nid}
-    </delete>	
-  	
-  </mapper>
+<mapper namespace="com.chinasofti.oas.mapper.INoticeMapper">
+	<resultMap id="noticeResults" type="notice">
+		<id property="nid" column="nid" />
+		<result column="nrange" property="nrange" />
+		<result column="ntheme" property="ntheme" />
+		<result column="ncontent" property="ncontent" />
+		<result column="ntime" property="ntime" />
+	</resultMap>
+	<select id="queryNotice" parameterType="page" resultMap="noticeResults">
+		select * from t_notice
+		<include refid="no1" />
+		limit #{start},#{pageSize}
+	</select>
+	<sql id="no1">
+		<where>
+			<if test="query!= null and query.nrange != null and query.nrange!=''">
+				and nrange=#{query.nrange}
+			</if>
+			<if test="query!= null and query.startDate != null and query.startDate !=''">
+				and ntime &gt; #{query.startDate}
+			</if>
+			<if test="query!= null and query.endDate != null and query.endDate !=''">
+				and ntime &lt; #{query.endDate}
+			</if>
+		</where>
+	</sql>
+	<select id="queryCount" parameterType="page" resultType="int">
+		select count(*) from t_notice
+		<include refid="no1" />
+	</select>
+	<!-- 公告添加 -->
+	<insert id="addNotice" parameterType="notice">
+		insert into t_notice (nrange,ntheme,ncontent,ntime)
+		values(#{nrange},#{ntheme},#{ncontent},now())
+	</insert>
+
+	<!-- 公告修改 -->
+	<update id="updateNotice" parameterType="notice">
+		update t_notice set
+		nrange = #{nrange},ntheme = #{ntheme},
+		ncontent = #{ncontent},ntime = now()
+		where nid = #{nid}
+	</update>
+
+	<!-- 公告删除 -->
+	<delete id="deleteNotice">
+		delete from t_notice where nid in
+		<foreach collection="array" open="(" close=")" separator=","
+			item="nid">
+			#{nid}
+		</foreach>
+	</delete>
+
+</mapper>

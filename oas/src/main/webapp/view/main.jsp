@@ -35,7 +35,8 @@
 			<div class="easyui-accordion" style="width:150px;height:500px">
 				<div title="公告管理">
 					<a href="javascript:void(0);" onclick="openTbs('公告管理','notice.jsp');">公告管理</a><br>
-					<a href="javascript:void(0);" onclick="openTbs('公告管理1','notice1.jsp');">公告管理1</a>
+					<a>公告管理</a>
+<!-- 					<a href="javascript:void(0);" onclick="openTbs('公告管理1','notice1.jsp');">公告管理1</a> -->
 				</div>
 				<div title="用户管理">
 					<a>员工管理</a><br>

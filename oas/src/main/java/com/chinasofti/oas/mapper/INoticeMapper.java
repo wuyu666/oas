@@ -11,5 +11,5 @@ public interface INoticeMapper {
 	public int queryCount(Page <Notice> page);;
 	public int addNotice(Notice no);
 	public int updateNotice(Notice no);
-	public int deleteNotice(Integer nid);
+	public int deleteNotice(int[] nid);
 }
