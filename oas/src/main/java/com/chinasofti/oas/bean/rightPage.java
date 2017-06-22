@@ -1,11 +1,11 @@
 package com.chinasofti.oas.bean;
 
-public class PageBean {
+public class rightPage {
 	private int page; // 第几页
     private int pageSize; // 每页记录数
     private int start;  // 起始页
     
-    public PageBean(int page, int pageSize) {
+    public rightPage(int page, int pageSize) {
         super();
         this.page = page;
         this.pageSize = pageSize;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.chinasofti.oas.mapper.IRightMapper">
+  	<resultMap id="result" type="rights">
+  		<id column="rid" property="rid"/>
+  		<result column="rname" property="rname"/>
+  	</resultMap>
+  	<!-- 添加权限-->
+  	<insert id="insertRight" parameterType="rights">
+  		INSERT INTO t_rights(rname) VALUES(#{rname})
+  	</insert>
+  	<!-- 查询权限，显示出相关权限的人员-->
+  	<select id="queryRight" resultMap="result">
+  		SELECT tr.rid,tr.rname FROM t_rights as tr 
+  		<where>
+  				<if test="rname!=null and !rname.equals('')">
+  					 tr.rname =#{rname}
+  				</if>
+  			</where>
+  	</select>
+  	<!-- 权限更新，需要更改相关人员的权限-->
+  	<update id="updateRight" parameterType="rights">
+  		update  t_rights set rname=#{rname} where rid=#{rid}
+  	</update>
+  	<!-- 权限删除-->
+  	<delete id="deleteRight" >
+  		DELETE FROM t_rights WHERE rid in
+  		<foreach collection="array" open="(" close=")" separator="," item="rid">
+ 			#{rid}
+ 		</foreach>
+  	</delete>
+  </mapper>
+  
