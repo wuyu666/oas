@@ -1,8 +1,6 @@
 package com.chinasofti.oas.mapper;
 
 import java.util.List;
-import java.util.Map;
-
 import com.chinasofti.oas.bean.Notice;
 import com.chinasofti.oas.bean.Page;
 
